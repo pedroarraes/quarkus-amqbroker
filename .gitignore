@@ -13,6 +13,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.vscode
+.mvn
 
 # External tool builders
 .externalToolBuilders/
