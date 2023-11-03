@@ -1,3 +1,19 @@
+podman login -u parraes@redhat.com registry.redhat.io
+
+podman pull registry.redhat.io/amq7/amq-broker-rhel8:7.10.4
+
+podman run -d --name amq-broker -p 61616:61616 registry.redhat.io/amq7/amq-broker-rhel8:7.10.4
+
+podman run -d --name amq-broker -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p 8161:8161 -p 5672:5672 registry.redhat.io/amq7/amq-broker-rhel8:7.10.4
+
+podman ps
+
+podman start amq-broker
+
+podman stop amq-broker
+
+podman rm amq-broker
+
 # quarkus-amqbroker
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

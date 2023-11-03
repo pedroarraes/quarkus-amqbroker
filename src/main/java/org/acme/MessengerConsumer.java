@@ -18,25 +18,19 @@ public class MessengerConsumer {
 
     public String recive() {
         
-        try (JMSContext context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE)) {
-            
-            JMSConsumer consumer = context.createConsumer(context.createQueue("message"));
-
-            Message message = consumer.receive();
-            
-            if (message == null) 
-                return null;
-            
+        JMSContext context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE);
+        JMSConsumer consumer = context.createConsumer(context.createQueue("message"));
+        Message message = consumer.receive(1000);
+        
+        try {
             lastMessage = message.getBody(String.class);
-            
-            context.close();
-            consumer.close();
-            
-            return lastMessage;
-            
-
         } catch (JMSException e) {
-            throw new RuntimeException(e);
+            lastMessage = "No more message in current queue!";
         }
+        
+        context.close();
+
+        return lastMessage;
     }
+
 }
