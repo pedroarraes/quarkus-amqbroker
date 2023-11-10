@@ -12,7 +12,7 @@ This insightful tutorial provides step-by-step guidance on initializing the Red 
 
 
 
-# Downloading Image and Initiating Container: Streamlining the Process for Seamless Deployment
+## Downloading Image and Initiating Container: Streamlining the Process for Seamless Deployment
 The initial step involves logging in to the Red Hat Registry. If you don't have access to the Red Hat Registry, you have the option to use a community image. Following this, execute the subsequent steps: pull the image and initiate it in the foreground. 
 
 1. Log in to the Red Hat Registry.
@@ -63,73 +63,160 @@ Explore the AQM Broker by accessing it through your web browser. Utilize the cre
 
 ![Alt text](appendices/image02.png)
 
-mvn clean package -P native
 
-podman build -f src/main/docker/Dockerfile.native -t quarkus/quarkus-amqbroker .
+## Running Quarkus Application in Development Mode: Streamlining the Development Workflow
+Before launching the Quarkus application, ensure that all requirements are met. I personally use Linux Bash for execution, but feel free to use an IDE or any other preferred method according to your convenience.
+```bash
+mvn clean compile quarkus:dev
+```
+```console
+INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.acme:quarkus-amqbroker >---------------------
+[INFO] Building quarkus-amqbroker 1.0.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ quarkus-amqbroker ---
+[INFO] Deleting /home/parraes/quarkus-amqbroker/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ quarkus-amqbroker ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- quarkus-maven-plugin:3.4.3:generate-code (default) @ quarkus-amqbroker ---
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.11.0:compile (default-compile) @ quarkus-amqbroker ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 3 source files with javac [debug release 17] to target/classes
+[INFO] 
+[INFO] --- quarkus-maven-plugin:3.4.3:dev (default-cli) @ quarkus-amqbroker ---
+[INFO] Invoking resources:2.6:testResources (default-testResources) @ quarkus-amqbroker
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/parraes/quarkus-amqbroker/src/test/resources
+[INFO] Invoking quarkus:3.4.3:generate-code-tests (default) @ quarkus-amqbroker
+[INFO] Invoking compiler:3.11.0:testCompile (default-testCompile) @ quarkus-amqbroker
+[INFO] No sources to compile
+Listening for transport dt_socket at address: 5005
 
-podman run -i --rm -p 8080:8080 quarkus/quarkus-amqbroker
 
 
 
-# quarkus-amqbroker
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## Running the application in dev mode
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__  ____  __  _____   ___  __ ____  ______ 
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2023-11-10 11:27:29,949 ERROR [io.qua.run.Application] (Quarkus Main Thread) Port 8080 seems to be in use by another process. Quarkus may already be running or the port is used by another application.
+
+2023-11-10 11:27:29,954 WARN  [io.qua.run.Application] (Quarkus Main Thread) Use 'netstat -anop | grep 8080' to identify the process occupying the port.
+2023-11-10 11:27:29,954 WARN  [io.qua.run.Application] (Quarkus Main Thread) You can try to kill it with 'kill -9 <pid>'.
+
+--
+Tests paused
+Press [space] to restart, [e] to edit command line args (currently ''), [r] to resume testing, [o] Toggle test output, [:] for the terminal, [h] for more options>
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+### Testing Your Application
+In this session, we will test the APIs using curl. Alternatively, you can utilize the Swagger web console by accessing http://localhost:8080/q/swagger-ui.
+![Alt text](appendices/image03.png)
 
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
+1. Message Production: Generating and Sending Messages Effectively
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/messenger/send' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '"my first messege using JMS on quarkus"'
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/messenger/send' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '"my second messege using JMS on quarkus"'
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/messenger/send' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '"Is it so fun?"'
 ```
 
-You can then execute your native executable with: `./target/quarkus-amqbroker-1.0.0-SNAPSHOT-runner`
+Navigation of the AMQ Broker Console: Locating Your Queue with Ease
+![Alt text](appendices/image04.png)
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+2. Message Consuming: Efficiently Receiving and Processing Messages
+```bash
+curl -X 'GET' \
+  'http://localhost:8080/messenger/recive' \
+  -H 'accept: application/plain'
+```
+```console
+"my first messege using JMS on quarkus"
+```
+```bash
+curl -X 'GET' \
+  'http://localhost:8080/messenger/recive' \
+  -H 'accept: application/plain'
+```
+```console
+"my second messege using JMS on quarkus"
+```
+```bash
+curl -X 'GET' \
+  'http://localhost:8080/messenger/recive' \
+  -H 'accept: application/plain'
+```
+```console
+"Is it so fun?""
+```
+
+## Understanding the Source Code:
+
 
 ## Related Guides
 
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
 - RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
+- JAX-RS ([guide])(https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 - Camel Simple JMS2 ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/sjms2.html)): Send and receive messages to/from a JMS Queue or Topic using plain JMS 2.x API
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
