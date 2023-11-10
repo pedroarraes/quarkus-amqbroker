@@ -215,13 +215,13 @@ curl -X 'GET' \
 
 ### application.properties
 ```property:quarkus.qpid-jms.url
-amqp://localhost:5672 (1)
+quarkus.qpid-jms.url=amqp://localhost:5672 (1)
 ```
 ```property:quarkus.qpid-jms.username (2)
-admin
+quarkus.qpid-jms.username=admin
 ```
 ```property:quarkus.qpid-jms.password (3)
-admin
+quarkus.qpid-jms.password=admin
 ```
 
 1. AMQ Broker Address URL: Accessing the Endpoint for Your Messaging Solution;
@@ -230,7 +230,41 @@ admin
 
 
 ### MessengerResource.java
+```java
+package org.acme;
 
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+
+@Path("/messenger") (1)
+@Produces("application/plain")
+public class MessengerResource {
+
+    @Inject
+    MessengerProducer messengerProducer;
+
+    @Inject
+    MessengerConsumer messengerConsumer;
+    
+    @POST
+    @Path("/send") (2)
+    public void send(String sMessage) {
+        messengerProducer.send(sMessage);
+    }
+
+    @GET
+    @Path("/recive") (3)
+    public String recive() {
+        return messengerConsumer.recive();
+    }
+}
+```
+1. API root address;
+2. API to send messenge (producer);
+3. API to recive messenge (consumer);
 
 ### MessengerProducer.java
 
