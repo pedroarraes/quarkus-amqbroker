@@ -76,7 +76,7 @@ INFO] Scanning for projects...
 [INFO] Building quarkus-amqbroker 1.0.0-SNAPSHOT
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ quarkus-amqbroker ---
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ quarkus-amqbroker ---- JAX-RS ([guide](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 [INFO] Deleting /home/parraes/quarkus-amqbroker/target
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ quarkus-amqbroker ---
@@ -304,5 +304,4 @@ public class MessengerConsumer {
 
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
 - RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JAX-RS ([guide](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 - Camel Simple JMS2 ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/sjms2.html)): Send and receive messages to/from a JMS Queue or Topic using plain JMS 2.x API
