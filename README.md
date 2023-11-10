@@ -214,11 +214,11 @@ curl -X 'GET' \
 ## Understanding the Source Code:
 
 ### application.properties
-´´´
+
 quarkus.qpid-jms.url=amqp://localhost:5672 (1)
 quarkus.qpid-jms.username=admin (2)
 quarkus.qpid-jms.password=admin (3)
-´´´
+
 
 1. AMQ Broker Address URL: Accessing the Endpoint for Your Messaging Solution;
 2. AMQ Broker User;
