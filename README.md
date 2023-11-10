@@ -267,8 +267,80 @@ public class MessengerResource {
 3. API to recive messenge (consumer);
 
 ### MessengerProducer.java
+```java
+package org.acme;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.Queue;
+
+@ApplicationScoped
+public class MessengerProducer {
+    
+    @Inject
+    ConnectionFactory connectionFactory; (1)
+
+    public void send(String sMessage) {
+        JMSContext context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE); (2)
+        Queue queue = context.createQueue("message"); (3)
+        
+        context.createProducer().send(queue, sMessage); (4)
+
+        context.close();
+    }
+}
+```
+
+1. Injecting Object to Establish Connection with AQM Broker: Streamlining Connectivity Setup;
+2. Creating a Context on AQM Broker Server: Establishing a Framework for Interaction;
+3. Create a JMS Queue;
+4. Send a messenge to the JMS Queue.
 
 ### MessengerConsumer.java
+```java
+package org.acme;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSConsumer;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+
+@ApplicationScoped
+public class MessengerConsumer {
+    
+    @Inject
+    ConnectionFactory connectionFactory (1);
+
+    private String lastMessage;
+
+    public String recive() {
+        
+        JMSContext context = connectionFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE); (2)
+        JMSConsumer consumer = context.createConsumer(context.createQueue("message")); (3)
+        Message message = consumer.receive(1000);
+        
+        try {
+            lastMessage = message.getBody(String.class); (4)
+        } catch (JMSException e) {
+            lastMessage = "No more message in current queue!";
+        }
+        
+        context.close();
+
+        return lastMessage;
+    }
+}
+```
+1. Injecting Object to Establish Connection with AQM Broker: Streamlining Connectivity Setup;
+2. Creating a Context on AQM Broker Server: Establishing a Framework for Interaction;
+3. Creating a JMS Queue Consumer: Implementing Efficient Message Consumption;
+4. Recive a messenge from JMS Queue.
+
 ## Related Guides
 
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
