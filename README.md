@@ -213,7 +213,24 @@ curl -X 'GET' \
 
 ## Understanding the Source Code:
 
+### application.properties
+´´´java
+quarkus.qpid-jms.url=amqp://localhost:5672 (1)
+quarkus.qpid-jms.username=admin (2)
+quarkus.qpid-jms.password=admin (3)
+´´´
 
+1. AMQ Broker Address URL: Accessing the Endpoint for Your Messaging Solution;
+2. AMQ Broker User;
+3. AMQ Broker Password;
+
+
+### MessengerResource.java
+
+
+### MessengerProducer.java
+
+### MessengerConsumer.java
 ## Related Guides
 
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
