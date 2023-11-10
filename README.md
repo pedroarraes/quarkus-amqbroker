@@ -304,5 +304,5 @@ public class MessengerConsumer {
 
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
 - RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JAX-RS ([guide])(https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+- JAX-RS ([guide](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 - Camel Simple JMS2 ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/sjms2.html)): Send and receive messages to/from a JMS Queue or Topic using plain JMS 2.x API
